@@ -2,7 +2,7 @@
 __Description__ 	
 > _Desktop app to help people with mental-health challenges_
 * Started:	06.05.24
-* Updated: 	27.07.24
+* Updated: 	30.07.24
 - Developers
 	* https://github.com/kyran-325
 	* https://github.com/JoshuaTwigg

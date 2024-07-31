@@ -1,8 +1,10 @@
-
 package com.beans.wellnesswave.GUI;
 
 import com.beans.wellnesswave.WindowInit;
 import com.beans.wellnesswave.databaseControl.DBInsert;
+import com.beans.wellnesswave.utilities.Tools;
+import java.awt.event.ItemEvent;
+import javax.swing.JOptionPane;
 
 public class WindowBill extends javax.swing.JFrame {
 
@@ -10,12 +12,13 @@ public class WindowBill extends javax.swing.JFrame {
         initComponents();
         //setSize(Toolkit.getDefaultToolkit().getScreenSize()); //suitable to certain screen size of device
     }
-    
-    protected String userID; 
+
+    protected String userID;
+
     public WindowBill(String inUserID) {
         initComponents();
-        
-        this.userID = inUserID; 
+
+        this.userID = inUserID;
         System.out.println("user ID: " + this.userID);
     }
 
@@ -29,8 +32,8 @@ public class WindowBill extends javax.swing.JFrame {
         lblFuName = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         lblEmail = new javax.swing.JLabel();
-        txtFieldFuName = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        inAccNum = new javax.swing.JTextField();
+        inCardType = new javax.swing.JComboBox<>();
         heading = new javax.swing.JLabel();
         errorMessage = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -57,16 +60,21 @@ public class WindowBill extends javax.swing.JFrame {
         lblEmail.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         lblEmail.setText("Card type");
 
-        txtFieldFuName.setBackground(new java.awt.Color(150, 185, 12));
-        txtFieldFuName.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
-        txtFieldFuName.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        txtFieldFuName.addActionListener(new java.awt.event.ActionListener() {
+        inAccNum.setBackground(new java.awt.Color(150, 185, 12));
+        inAccNum.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
+        inAccNum.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        inAccNum.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFieldFuNameActionPerformed(evt);
+                inAccNumActionPerformed(evt);
             }
         });
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Debit", "Credit" }));
+        inCardType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Debit", "Credit" }));
+        inCardType.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                inCardTypeItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -84,12 +92,12 @@ public class WindowBill extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(inCardType, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(lblFuName, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFieldFuName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(inAccNum, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -97,12 +105,12 @@ public class WindowBill extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFieldFuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inAccNum, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblFuName))
                 .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmail)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inCardType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(lblUsername)
                 .addGap(39, 39, 39))
@@ -116,7 +124,6 @@ public class WindowBill extends javax.swing.JFrame {
 
         errorMessage.setForeground(new java.awt.Color(255, 255, 255));
         errorMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        errorMessage.setText("for error message");
 
         jLabel1.setBackground(new java.awt.Color(193, 255, 114));
         jLabel1.setFont(new java.awt.Font("Cambria", 1, 14)); // NOI18N
@@ -138,17 +145,17 @@ public class WindowBill extends javax.swing.JFrame {
             .addGroup(formPanelLayout.createSequentialGroup()
                 .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formPanelLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(formPanelLayout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(heading)))
+                        .addComponent(heading))
+                    .addGroup(formPanelLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, formPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(formPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(errorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(161, 161, 161))
         );
         formPanelLayout.setVerticalGroup(
@@ -159,8 +166,8 @@ public class WindowBill extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(errorMessage)
-                .addGap(18, 18, 18)
+                .addComponent(errorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
@@ -199,25 +206,144 @@ public class WindowBill extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFieldFuNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldFuNameActionPerformed
+    private void inAccNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inAccNumActionPerformed
         // to be coded...
-    }//GEN-LAST:event_txtFieldFuNameActionPerformed
+    }//GEN-LAST:event_inAccNumActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         // verify input fields
-        
+
 //- bill(order_ID, user_ID, account_num, card_type, price)
+//        else if (!email.contains("@") || !email.contains(".")) {
+//            JOptionPane.showMessageDialog(null, "Invalid Email Address. It should contain '@' symbol and domain name", "ERROR", JOptionPane.ERROR_MESSAGE);
+//        } else if (createPassword.length() > 14) {
+//            JOptionPane.showMessageDialog(null, "Password should not exceed 14 characters", "ERROR", JOptionPane.ERROR_MESSAGE);
+//        }
+        String accNum = inAccNum.getText();
 
+//        if (accNum.contains("abcdefghijklmnopqrstuvwxyz")) {
+//            JOptionPane.showMessageDialog(
+//                    null,
+//                    "Cannot contain letters",
+//                    "ERROR",
+//                    JOptionPane.ERROR_MESSAGE
+//            );
+//
+//            this.errorMessage.setText("Account number cannot contain letters");
+//        } 
+  
+        if (!this.checkIfInt(accNum)){
+//            JOptionPane.showMessageDialog(
+//                    null,
+//                    "Cannot contain letters",
+//                    "ERROR",
+//                    JOptionPane.ERROR_MESSAGE
+//            );
 
-        // add to table
-        DBInsert insert = new DBInsert();
-        insert.insertRecord("bill_temp", "asas", "sds");
+            this.errorMessage.setText("Account number cannot contain letters");
+        }
+        
+        else if (inAccNum.getText().equals("")) {
+            this.errorMessage.setText("Enter an account number");
+        } 
+        else if (accNum.length() < 8) {
+//            JOptionPane.showMessageDialog(
+//                null, 
+//                "Account number should be 16 digits long", 
+//                "ERROR", 
+//                JOptionPane.ERROR_MESSAGE
+//            );
+            this.errorMessage.setText("Account number should be 8 digits or longer");
+        } // success
+        //        else if (!inAccNum.getText().equals("")){
+        else {
 
-        // go to login window
-        new WindowInit().setVisible(true);
+            System.out.println(selectedCardType);
+            System.out.println(accNum);
+            String orderID = Tools.createUserID(accNum, this.userID);
+
+            // add to table
+            DBInsert insert = new DBInsert();
+            insert.insertRecord(
+                    "bill_temp",
+                    orderID,
+                    this.userID,
+                    accNum,
+                    selectedCardType,
+                    "R200"
+            );
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Log in with your credentials",
+                    "Success",
+                    JOptionPane.PLAIN_MESSAGE
+            );
+            this.dispose();
+
+            // go to login window
+            new WindowInit().setVisible(true);
+        }
+
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private String selectedCardType = "Debit";
+    private void inCardTypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_inCardTypeItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            System.out.println("SELECTED...");
+
+            Object item = evt.getItem();
+
+            System.out.println(item.toString());
+
+            selectedCardType = item.toString();
+        }
+    }//GEN-LAST:event_inCardTypeItemStateChanged
+
+    // from 
+    // https://www.studytonight.com/java-examples/check-if-input-is-integer-in-java#:~:text=hasNextInt()%20method%20checks%20whether,otherwise%20it%20will%20return%20false.
+    
+    public boolean checkIfInt(String input) {
+//		String input = "1234";           
+        Boolean flag = true;
+        for (int a = 0; a < input.length(); a++) {
+            if (a == 0 && input.charAt(a) == '-') {
+                continue;
+            }
+            if (!Character.isDigit(input.charAt(a))) {
+                flag = false;
+            }
+        }
+//        if (flag) {
+//            System.out.println(input + " is valid Integer");
+//        }
+        return flag;
+
+    }
+
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(WindowSelectDisorder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(WindowSelectDisorder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(WindowSelectDisorder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(WindowSelectDisorder.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -230,13 +356,13 @@ public class WindowBill extends javax.swing.JFrame {
     private javax.swing.JLabel errorMessage;
     private javax.swing.JPanel formPanel;
     private javax.swing.JLabel heading;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JTextField inAccNum;
+    private javax.swing.JComboBox<String> inCardType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblFuName;
     private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JTextField txtFieldFuName;
     // End of variables declaration//GEN-END:variables
 }

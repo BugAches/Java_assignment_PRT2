@@ -2,7 +2,7 @@
 package com.beans.wellnesswave;
 
 import com.beans.wellnesswave.GUI.WindowHome;
-import com.beans.wellnesswave.GUI.WindowAdmin;
+import com.beans.wellnesswave.older.WindowAdmin;
 import com.beans.wellnesswave.GUI.WindowQuestionnaire;
 import com.beans.wellnesswave.databaseControl.DBInsert;
 import com.beans.wellnesswave.databaseControl.DBUpdate;
@@ -1490,7 +1490,7 @@ public class WindowInit extends javax.swing.JFrame {
             DBC.terminate();
             
             // next window
-            new WindowQuestionnaire().setVisible(true);
+            new WindowQuestionnaire(ID).setVisible(true);
 //            new WindowSelectDisorder().setVisible(true);
         }
     }//GEN-LAST:event_enterAppBtn3MouseClicked

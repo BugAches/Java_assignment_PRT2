@@ -1,6 +1,7 @@
 
 package com.beans.wellnesswave.utilities;
 
+import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class Tools {
@@ -17,6 +18,18 @@ public class Tools {
             reversed += word.charAt(a);
         }
         return reversed; 
+    }
+    
+    public static String generateRandomNumStr(){
+        String rNum = "";
+        
+        Random random = new Random();
+        int num1 = random.nextInt(100);
+        int num2 = random.nextInt(100);
+        int num3 = random.nextInt(100);
+
+        rNum = String.valueOf(num1) + String.valueOf(num2) + String.valueOf(num3);
+        return rNum;
     }
     
     public static void closeApp(){

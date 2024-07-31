@@ -8,4 +8,13 @@ SAVE DATABASE TO THE PROJECT DIR?
 - remember to add derby client to pom.xml 
 ---
 
-when opening the home page or admin control, add a parameter for userID in object
+- maybe remove view journal feature, and reset password for now
+- make userID and journal ID longer = 50 chars
+---
+
+to-do
+- find a way to add disorder and doctor records
+- find a way to display journal entries
+- find a way to reset password
+- combine joshua's admin code with the rest of the project
+---

@@ -62,4 +62,22 @@ public class DBDelete {
         }
     }
     
+    public static void delete(String table, String attribute, int value){
+        
+        String query = "DELETE from " + table + " WHERE " + attribute + " = " + value;
+       
+        try{
+            int rowsAffected = SQLStatement.executeUpdate(query);
+            if(rowsAffected > 0){
+                  System.out.println("<DELETED RECORD>" + "with an ID of: " + value + " " + " rows affected: " + rowsAffected);
+            }else{
+                System.out.println("no rows with ID of: " + value);
+            }
+              
+        }
+        catch(SQLException SQLEx){
+            System.out.println(SQLEx.getMessage());
+        }
+    }
+    
 }

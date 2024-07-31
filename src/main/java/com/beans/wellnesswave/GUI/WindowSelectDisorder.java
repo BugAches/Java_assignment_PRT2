@@ -11,6 +11,13 @@ public class WindowSelectDisorder extends javax.swing.JFrame {
     public WindowSelectDisorder() {
         initComponents();
     }
+    protected String userID; 
+    public WindowSelectDisorder(String inUserID) {
+        initComponents();
+        
+        this.userID = inUserID; 
+        System.out.println("user ID: " + this.userID);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -170,7 +177,7 @@ public class WindowSelectDisorder extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Almost done creating your account. Just one more thing");
 
             // go to next window
-            new WindowBill().setVisible(true);
+            new WindowBill(this.userID).setVisible(true);
         }
     }//GEN-LAST:event_jLabel1MouseClicked
 
